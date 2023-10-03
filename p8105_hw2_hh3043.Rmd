@@ -4,5 +4,39 @@ author: "Haitian Huang"
 date: "2023-10-02"
 output: html_document
 ---
+```{r}
+library(tidyverse)
+```
+
+problem 1
+
+First,clean the pols_month dataset.
+```{r}
+
+pols_month = 
+  read_csv('.\\fivethirtyeight_datasets\\pols-month.csv')|>
+  separate(mon,into = c('year','month','day')) |>
+  mutate(month=replace(month,month==c('01','02','03','04','05','06','07','08','09','10','11','12'),c('January','February','March','April', 'May','June','July','August','September', 'October','November','December')))|>
+  mutate(
+    president = case_match(prez_gop, 0 ~ "dem",
+                         1 ~ "gop", 
+                         2 ~ "gop"))|>
+  select(year,month,everything(),-day,-starts_with('prez_'))
+
+
+
+
+
+```
+Then, clean the snp dataset.
+
+```{r}
+snp = read_csv('.\\fivethirtyeight_datasets\\snp.csv')|>
+  separate(date,into = c('day','month','year'),convert = TRUE) |>
+  mutate(
+    year = if_else(year>23,year+1900,year+2000)
+  )
+```
+
 
 
