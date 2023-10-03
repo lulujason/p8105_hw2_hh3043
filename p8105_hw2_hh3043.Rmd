@@ -6,6 +6,7 @@ output: html_document
 ---
 ```{r}
 library(tidyverse)
+library(read_excel)
 ```
 
 problem 1
@@ -57,6 +58,31 @@ Finally,join all three data sets.
 data_538 = left_join(pols_month,snp)|>
   left_join(x=_,unemployment)
 ```
+
+problem 2
+
+Clean the Mr.Trash data set na dcalculate the homes powered.
+```{r}
+
+
+
+Mr_Trash = read_excel('202207 Trash Wheel Collection Data.xlsx',range = cell_cols('A:N'))|>
+  janitor::clean_names() |>
+  rename(homes_powered_approximate = homes_powered)|>
+  drop_na('dumpster')|>
+  mutate(
+    homes_powered = weight_tons*500/30)
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
