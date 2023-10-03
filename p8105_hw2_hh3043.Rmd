@@ -61,7 +61,7 @@ data_538 = left_join(pols_month,snp)|>
 
 problem 2
 
-Clean the Mr.Trash data set na dcalculate the homes powered.
+Clean the Mr.Trash data set and dcalculate the homes powered.
 ```{r}
 
 
