@@ -76,9 +76,22 @@ Mr_Trash = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=1,range = 
 
 
 ```{r}
-
+Professor = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=2,range = cell_cols('A:M'))|>
+  janitor::clean_names() |>
+  rename(homes_powered_approximate = homes_powered)|>
+  drop_na('dumpster')|>
+  mutate(
+    homes_powered = weight_tons*500/30)
 ```
 
+```{r}
+Gwynnda = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=4,range = cell_cols('A:L'))|>
+  janitor::clean_names() |>
+  rename(homes_powered_approximate = homes_powered)|>
+  drop_na('dumpster')|>
+  mutate(
+    homes_powered = weight_tons*500/30)
+```
 
 
 
