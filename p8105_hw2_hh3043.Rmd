@@ -66,7 +66,7 @@ Clean the Mr.Trash data set and dcalculate the homes powered.
 
 
 
-Mr_Trash = read_excel('202207 Trash Wheel Collection Data.xlsx',range = cell_cols('A:N'))|>
+Mr_Trash = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=1,range = cell_cols('A:N'))|>
   janitor::clean_names() |>
   rename(homes_powered_approximate = homes_powered)|>
   drop_na('dumpster')|>
@@ -75,6 +75,9 @@ Mr_Trash = read_excel('202207 Trash Wheel Collection Data.xlsx',range = cell_col
 ```
 
 
+```{r}
+
+```
 
 
 
