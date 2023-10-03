@@ -71,7 +71,8 @@ Mr_Trash = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=1,range = 
   rename(homes_powered_approximate = homes_powered)|>
   drop_na('dumpster')|>
   mutate(
-    homes_powered = weight_tons*500/30)
+    homes_powered = weight_tons*500/30,
+    category = 'Mr_Trash')
 ```
 
 
@@ -81,7 +82,9 @@ Professor = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=2,range =
   rename(homes_powered_approximate = homes_powered)|>
   drop_na('dumpster')|>
   mutate(
-    homes_powered = weight_tons*500/30)
+    homes_powered = weight_tons*500/30,
+    category = 'Professor')
+
 ```
 
 ```{r}
@@ -90,11 +93,15 @@ Gwynnda = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=4,range = c
   rename(homes_powered_approximate = homes_powered)|>
   drop_na('dumpster')|>
   mutate(
-    homes_powered = weight_tons*500/30)
+    homes_powered = weight_tons*500/30,
+    category = 'Gwynnda')
 ```
 
 
 
+```{r}
+
+```
 
 
 
