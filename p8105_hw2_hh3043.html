@@ -465,6 +465,29 @@ by the electricity transferred by the trash collected on that day.The
 totoal weight of trash collected by Professor Trash_Wheel is 216.26.The
 total number of cigarette butts collected by Gwynnda Trash Wheel is
 3.6701^{5}.</p>
+<p>Problem 3</p>
+<pre class="r"><code>baseline = read_csv(&#39;.\\data_mci\\MCI_baseline.csv&#39;,skip = 1)|&gt;
+  janitor::clean_names()|&gt;
+  mutate(
+    sex = as.character(sex),
+    apoe4 = as.character(apoe4))|&gt;
+  filter((age_at_onset==&#39;.&#39;) |(age_at_onset&gt;current_age))</code></pre>
+<pre><code>## Rows: 483 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): Age at onset
+## dbl (5): ID, Current Age, Sex, Education, apoe4
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>When I imported the dataset, I skipped the first row,which is a
+detailed explanation of the variables.I also use
+<code>clean_names</code> method to lowercase the variables. I
+transferred variable <code>apoe4</code> and <code>sex</code> to
+character form because they represent a state or category. Then I
+removed participants who had MCI at baseline. 479 participants are
+recruited and 93 develop MCI.The average baseline age is 65.0286013.The
+proportion of women in the study are APOE4 carriers is0.3.</p>
 
 
 

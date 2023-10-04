@@ -110,6 +110,16 @@ These trash wheel data are collected are about the amount and categories of the 
 `r nrow(Professor)` observations and `r ncol(Professor)` variables. For `Gwynnda` dataset,there are `r nrow(Gwynnda)` observations and `r ncol(Gwynnda)` variables. The `weight_tons` variable is the weight of trash remove of the trash wheel in one day.The `homes_powered` variable is how many homes can be supported by the electricity transferred by the trash collected on that day.The totoal weight of trash collected by Professor Trash_Wheel is `r sum(pull(Professor,weight_tons))`.The total number of cigarette butts collected by Gwynnda Trash Wheel is `r sum(pull(Gwynnda,cigarette_butts))`.
 
 
-
+Problem 3
+```{r}
+baseline = read_csv('.\\data_mci\\MCI_baseline.csv',skip = 1)|>
+  janitor::clean_names()|>
+  mutate(
+    sex = as.character(sex),
+    apoe4 = as.character(apoe4))|>
+  filter((age_at_onset=='.') |(age_at_onset>current_age))
+```
+When I imported the dataset, I skipped the first row,which is a detailed explanation of the variables.I also use `clean_names` method to lowercase the variables. I transferred variable `apoe4` and `sex` to character form because they represent a state or category.
+Then I removed participants who had MCI at baseline. `r nrow(baseline)` participants are recruited and `r nrow(filter(baseline,age_at_onset !='.'))` develop MCI.The average baseline age is `r mean(pull(baseline,current_age))`.The proportion of women in the study are APOE4 carriers is `r nrow(filter(baseline,sex==0 & apoe4 =='1'))/nrow(filter(baseline,sex==0))`.
 
 
