@@ -6,7 +6,7 @@ output: html_document
 ---
 ```{r}
 library(tidyverse)
-library(read_excel)
+library(readxl)
 ```
 
 problem 1
@@ -71,6 +71,7 @@ Mr_Trash = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=1,range = 
   rename(homes_powered_approximate = homes_powered)|>
   drop_na('dumpster')|>
   mutate(
+    year = as.numeric(year),
     homes_powered = weight_tons*500/30,
     category = 'Mr_Trash')
 ```
@@ -84,6 +85,7 @@ Professor = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=2,range =
   mutate(
     homes_powered = weight_tons*500/30,
     category = 'Professor')
+
 
 ```
 
@@ -100,10 +102,12 @@ Gwynnda = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=4,range = c
 
 
 ```{r}
-
+Trash_Wheel = bind_rows(Mr_Trash,Professor)|>
+  bind_rows(x=_,Gwynnda)|>
+  arrange(dumpster)
 ```
-
-
+These trash wheel data are collected are about the amount and categories of the trash the water wheel vessels removed.For `Mr.Trash` dataset,there are `r nrow(Mr_Trash)` observations and `r ncol(Mr_Trash)` variables.For `Professor` dataset, there are 
+`r nrow(Professor)` observations and `r ncol(Professor)` variables. For `Gwynnda` dataset,there are `r nrow(Gwynnda)` observations and `r ncol(Gwynnda)` variables. The `weight_tons` variable is the weight of trash remove of the trash wheel in one day.The `homes_powered` variable is how many homes can be supported by the electricity transferred by the trash collected on that day.The totoal weight of trash collected by Professor Trash_Wheel is `r sum(pull(Professor,weight_tons))`.The total number of cigarette butts collected by Gwynnda Trash Wheel is `r sum(pull(Gwynnda,cigarette_butts))`.
 
 
 
