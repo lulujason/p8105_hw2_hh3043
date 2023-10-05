@@ -123,3 +123,12 @@ When I imported the dataset, I skipped the first row,which is a detailed explana
 Then I removed participants who had MCI at baseline. `r nrow(baseline)` participants are recruited and `r nrow(filter(baseline,age_at_onset !='.'))` develop MCI.The average baseline age is `r mean(pull(baseline,current_age))`.The proportion of women in the study are APOE4 carriers is `r nrow(filter(baseline,sex==0 & apoe4 =='1'))/nrow(filter(baseline,sex==0))`.
 
 
+Then,import, clean and tidy the dataset of biomarker.
+
+```{r}
+amyloid = read_csv('.\\data_mci\\mci_amyloid.csv',
+                   col_types = cols(.default = "d"),skip=1)|>
+  janitor::clean_names()
+
+```
+When importing the amyloid dataset, I assigned the types of columns to be double,and skipped the first row which is the explanation of variables.Then I cleaned the names of variables.
