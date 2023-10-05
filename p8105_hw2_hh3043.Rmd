@@ -14,7 +14,7 @@ library(readxl)
 
 First,clean the pols_month dataset.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 
 pols_month = 
   read_csv('.\\fivethirtyeight_datasets\\pols-month.csv')|>
@@ -35,7 +35,7 @@ pols_month =
 
 Then, clean the snp dataset.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 snp = read_csv('.\\fivethirtyeight_datasets\\snp.csv')|>
   separate(date,into = c('day','month','year'),convert = TRUE) |>
   mutate(
@@ -47,7 +47,7 @@ snp = read_csv('.\\fivethirtyeight_datasets\\snp.csv')|>
 
 Third,clean the unemployment data.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 unemployment = read_csv('.\\fivethirtyeight_datasets\\unemployment.csv')|> 
   rename(year = Year) |>
   pivot_longer(
@@ -62,7 +62,7 @@ unemployment = read_csv('.\\fivethirtyeight_datasets\\unemployment.csv')|>
 
 Finally,join all three data sets.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 data_538 = left_join(pols_month,snp)|>
   left_join(x=_,unemployment)
 ```
@@ -71,7 +71,7 @@ data_538 = left_join(pols_month,snp)|>
 
 Clean the Mr.Trash data set and dcalculate the homes powered.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 
 
 
@@ -86,7 +86,7 @@ Mr_Trash = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=1,range = 
 ```
 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 Professor = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=2,range = cell_cols('A:M'))|>
   janitor::clean_names() |>
   rename(homes_powered_approximate = homes_powered)|>
@@ -98,7 +98,7 @@ Professor = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=2,range =
 
 ```
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 Gwynnda = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=4,range = cell_cols('A:L'))|>
   janitor::clean_names() |>
   rename(homes_powered_approximate = homes_powered)|>
@@ -110,7 +110,7 @@ Gwynnda = read_excel('202309 Trash Wheel Collection Data.xlsx',sheet=4,range = c
 
 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 Trash_Wheel = bind_rows(Mr_Trash,Professor)|>
   bind_rows(x=_,Gwynnda)|>
   arrange(dumpster)
@@ -123,7 +123,7 @@ These trash wheel data are collected are about the amount and categories of the 
 
 ### Problem 3
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 baseline = read_csv('.\\data_mci\\MCI_baseline.csv',skip = 1)|>
   janitor::clean_names()|>
   mutate(
@@ -139,7 +139,7 @@ Then I removed participants who had MCI at baseline. `r nrow(baseline)` particip
 
 Then,import, clean and tidy the dataset of biomarker.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 amyloid = read_csv('.\\data_mci\\mci_amyloid.csv',
                    col_types = cols(.default = "d"),skip=1)|>
   janitor::clean_names()|>
@@ -155,7 +155,7 @@ amyloid = read_csv('.\\data_mci\\mci_amyloid.csv',
 When importing the amyloid dataset, I assigned the types of columns to be double,and skipped the first row which is the explanation of variables.Then I cleaned the names of variables.
 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 mci = left_join(amyloid,baseline)|>
   filter(!is.na(sex))
 
@@ -165,7 +165,7 @@ mci = left_join(amyloid,baseline)|>
 There are `r nrow(mci)/4` participants in both datasets. `r (nrow(amyloid)-nrow(mci))/4` participants are only in `amyloid` dataset, and `r nrow(baseline)-nrow(mci)/4` participants are only in `baseline` dataset. There are `r nrow(mci)` observations and `r ncol(mci)` variables in `baseline` dataset. For those participants who developed mci,the proportion they carry APOE4 is `r nrow(filter(mci,apoe4 == 1 & age_at_onset != '.'))/nrow(filter(mci,age_at_onset != '.'))`.
 
 Finally,export the mci file.
-```{r}
+```{r message = FALSE, warning = FALSE}
 write.csv(mci, ".\\mci.csv")
 ```
 
