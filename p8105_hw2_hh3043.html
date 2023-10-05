@@ -487,7 +487,30 @@ transferred variable <code>apoe4</code> and <code>sex</code> to
 character form because they represent a state or category. Then I
 removed participants who had MCI at baseline. 479 participants are
 recruited and 93 develop MCI.The average baseline age is 65.0286013.The
-proportion of women in the study are APOE4 carriers is0.3.</p>
+proportion of women in the study are APOE4 carriers is 0.3.</p>
+<p>Then,import, clean and tidy the dataset of biomarker.</p>
+<pre class="r"><code>amyloid = read_csv(&#39;.\\data_mci\\mci_amyloid.csv&#39;,
+                   col_types = cols(.default = &quot;d&quot;),skip=1)|&gt;
+  janitor::clean_names()|&gt;
+  rename(id = study_id)|&gt;
+  pivot_longer(
+    time_2:time_8,
+    names_to = &#39;time&#39;,
+    values_to = &#39;value&#39;
+  )</code></pre>
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+## e.g.:
+##   dat &lt;- vroom(...)
+##   problems(dat)</code></pre>
+<p>When importing the amyloid dataset, I assigned the types of columns
+to be double,and skipped the first row which is the explanation of
+variables.Then I cleaned the names of variables.</p>
+<pre class="r"><code>mci = left_join(amyloid,baseline)|&gt;
+  filter(!is.na(sex))</code></pre>
+<pre><code>## Joining with `by = join_by(id)`</code></pre>
+<p>There are 471 participants in common. 16 participants are only in
+<code>amyloid</code> dataset, and 8 participants are only in
+<code>baseline</code> dataset.</p>
 
 
 

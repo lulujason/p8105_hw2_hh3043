@@ -128,7 +128,26 @@ Then,import, clean and tidy the dataset of biomarker.
 ```{r}
 amyloid = read_csv('.\\data_mci\\mci_amyloid.csv',
                    col_types = cols(.default = "d"),skip=1)|>
-  janitor::clean_names()
+  janitor::clean_names()|>
+  rename(id = study_id)|>
+  pivot_longer(
+    time_2:time_8,
+    names_to = 'time',
+    values_to = 'value'
+  )
 
 ```
 When importing the amyloid dataset, I assigned the types of columns to be double,and skipped the first row which is the explanation of variables.Then I cleaned the names of variables.
+
+```{r}
+mci = left_join(amyloid,baseline)|>
+  filter(!is.na(sex))
+
+
+```
+There are `r nrow(mci)/4` participants in common. `r (nrow(amyloid)-nrow(mci))/4` participants are only in `amyloid` dataset, and `r nrow(baseline)-nrow(mci)/4` participants are only in `baseline` dataset. There are `r nrows(mci)` observations and `r ncols(mci)` variables in `baseline` dataset. For those participants who developed mci,the proportion they carry APOE4 is`r nrow(filter(mci,apoe4 == 1 & age_at_onset != '.'))/nrow(filter(mci,age_at_onset != '.'))`.
+
+```{r}
+write.csv(mci, ".\\mci.csv")
+```
+
